@@ -26,3 +26,6 @@ export function getMethodMetaData(target:()=>any,propertyKey:string):RouteConfig
 export function GET(path:string):decoratorHandler{
     return methodDecoratorCreator('get',path)
 } 
+export function POST(path:string):decoratorHandler{
+    return methodDecoratorCreator('post',path)
+} 

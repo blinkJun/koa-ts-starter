@@ -8,4 +8,7 @@
 - [x] 具有常用的修饰方法修饰控制器
 
 ### 直接引入的koa插件
+路由：
 [koa-router](https://github.com/koajs/router/blob/HEAD/API.md)
+验证参数模块：
+[async-validator](https://github.com/yiminghe/async-validator)
