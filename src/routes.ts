@@ -2,14 +2,14 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 14:38:49
- * @LastEditTime 2021-01-25 16:01:39
+ * @LastEditTime 2021-01-25 17:34:36
  * @Description 读取控制器，将控制器转换为路由处理方法
  */
 import fs from 'fs';
 import { Context, Next } from 'koa';
 import path from 'path';
 
-import "reflect-metadata";
+import 'reflect-metadata';
 import {getControllerMetaData} from './decorators/controller'
 import {getMethodMetaData,routeConfig} from './decorators/methods'
 
@@ -17,7 +17,7 @@ export interface Route extends routeConfig {
     handler:(ctx:Context,next:Next)=>void
 }
 
-let Controllers: Array<new () => {}> = [];
+let Controllers: any[] = [];
 
 async function readyController(url: string) {
     const fileNames = fs.readdirSync(url);
@@ -29,7 +29,7 @@ async function readyController(url: string) {
             // 解析 导入
             try {
                 const objClass = await import(_url);
-                if (typeof objClass === "object" && Object.prototype.toString.call(objClass).toLowerCase() === '[object object]') {
+                if (typeof objClass === 'object' && Object.prototype.toString.call(objClass).toLowerCase() === '[object object]') {
                     Controllers.push(objClass.default);
                 }
             } catch (error) {
