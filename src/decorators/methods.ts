@@ -1,14 +1,17 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 
-export const methodMetaKey:symbol = Symbol('routePath')
+export const methodMetaKey = Symbol('routePath')
 
-export interface routeConfig {
+export interface RouteConfig {
     method:'get'|'post'|'put'|'delete'|'options',
     path:string
 }
 
-const methodDecoratorCreator = function(method:string,path:string){
-    return (target:object,propertyKey:string)=>{
+export type decoratorHandler = (target:any,propertyKey:string)=>void
+export type decoratorCreator = (method:string,path:string)=>decoratorHandler
+
+const methodDecoratorCreator:decoratorCreator = function(method:string,path:string):decoratorHandler{
+    return (target:any,propertyKey:string)=>{
         Reflect.defineMetadata(methodMetaKey,{
             method,
             path
@@ -16,10 +19,10 @@ const methodDecoratorCreator = function(method:string,path:string){
     }
 }
 
-export function getMethodMetaData(target:object,propertyKey:string):routeConfig{
+export function getMethodMetaData(target:()=>any,propertyKey:string):RouteConfig{
     return Reflect.getMetadata(methodMetaKey,target,propertyKey)
 }
 
-export function GET(path:string){
+export function GET(path:string):decoratorHandler{
     return methodDecoratorCreator('get',path)
 } 

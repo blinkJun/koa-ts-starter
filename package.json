@@ -6,7 +6,7 @@
   "scripts": {
     "commit": "git-cz",
     "dev": "nodemon ./src/index.ts",
-    "lint": "eslint ./src/*.ts",
+    "lint": "eslint ./src/**/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

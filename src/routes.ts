@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 14:38:49
- * @LastEditTime 2021-01-25 17:34:36
+ * @LastEditTime 2021-01-25 19:00:13
  * @Description 读取控制器，将控制器转换为路由处理方法
  */
 import fs from 'fs';
@@ -11,9 +11,9 @@ import path from 'path';
 
 import 'reflect-metadata';
 import {getControllerMetaData} from './decorators/controller'
-import {getMethodMetaData,routeConfig} from './decorators/methods'
+import {getMethodMetaData,RouteConfig} from './decorators/methods'
 
-export interface Route extends routeConfig {
+export interface Route extends RouteConfig {
     handler:(ctx:Context,next:Next)=>void
 }
 
@@ -57,11 +57,13 @@ export const transferToRouteParams = async function():Promise<Route[]> {
 
     controllers.forEach(controller=>{
         const basePath = getControllerMetaData(controller)
+        if(!basePath) return;
         const instanceMethods = Reflect.ownKeys(controller.prototype)
         instanceMethods.forEach(key=>{
             if (key === 'constructor') return;
             const routeFunction = Reflect.get(controller.prototype,key)
-            const route:routeConfig = getMethodMetaData(controller.prototype,key as string)
+            const route:RouteConfig = getMethodMetaData(controller.prototype,key as string)
+            if(!route) return;
             routes.push({
                 method:route.method,
                 path:basePath+route.path,
