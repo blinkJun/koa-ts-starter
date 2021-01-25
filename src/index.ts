@@ -1,16 +1,16 @@
-import Koa, { Context, Next } from 'koa'
+import Koa from 'koa'
 import Router from '@koa/router'
 
-import indexControler from './controlers/index'
-
-new indexControler()
+import {transferToRouteParams,Route} from './routes'
 
 const app:Koa = new Koa()
 const router = new Router()
 
-router.get('/',(ctx:Context,next:Next)=>{
-    ctx.body = 'hello world'
-    next()
+transferToRouteParams().then((routes:Route[])=>{
+    routes.forEach(route=>{
+        const method = route.method
+        router[method](route.path,route.handler)
+    })
 })
 
 app.use(router.routes()).use(router.allowedMethods());
