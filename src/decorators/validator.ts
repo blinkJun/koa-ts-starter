@@ -2,18 +2,18 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2021-01-28 16:37:10
+ * @LastEditTime 2021-01-28 18:48:48
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
-import { Context, Middleware, Next } from 'koa';
+import { Context, Next } from 'koa';
 import Scheme from 'async-validator'
 
 export const validatorMetaKey = Symbol('validator')
 
 export type DecoratorHandler = (target:any,propertyKey:string)=>void
 
-export type ValidateMiddleware = (ctx:Context,next:Next,discirptor:Descriptor) => void
+export type ValidateMiddleware = (ctx:Context,discirptor:Descriptor) => Promise<any[]|undefined>
 
 export interface Descriptor {
   [propName:string]:any
@@ -42,7 +42,7 @@ export const validate = async function(descriptor:Descriptor,data:ValidateData):
 }
 
 // 该如何进行验证
-export const validateMiddleware:ValidateMiddleware = async function(ctx:Context,next:Next,descriptor?:Descriptor){
+export const validateMiddleware:ValidateMiddleware = async function(ctx:Context,descriptor?:Descriptor){
     if(descriptor){
         // 需要验证的参数
         let data = {}
@@ -55,16 +55,10 @@ export const validateMiddleware:ValidateMiddleware = async function(ctx:Context,
             data = ctx.request.body
         }
 
-        
         try{
             await validate(descriptor,data)
-            next()
         }catch(err){
-            console.log(err)
-            ctx.status = 400 
-            ctx.body = err.errors
+            return err.errors
         }
-    }else{
-        next()
     }
 }

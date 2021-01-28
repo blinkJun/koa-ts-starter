@@ -2,16 +2,30 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-01-28 16:39:53
+ * @LastEditTime 2021-01-28 18:57:24
  * @Description 
  */
-import Koa from 'koa'
+import Koa,{Context, Next} from 'koa'
 import Router from '@koa/router'
 import BodyParser from 'koa-bodyparser'
+import formatResBody from './middlewares/format-res-body'
 
 import {transferToRouteParams,Route} from './routes'
 
 const app:Koa = new Koa()
+
+// 格式化返回值
+app.use(formatResBody())
+
+// 全局错误状态管理
+app.use(async (ctx:Context, next:Next) => {
+    try {
+        await next();
+    } catch (error) {
+        console.log(error);
+        ctx.serverError('服务器错误',error.message)
+    }
+});
 
 // 请求body格式化插件
 app.use(BodyParser())
@@ -21,7 +35,7 @@ const router = new Router()
 transferToRouteParams().then((routes:Route[])=>{
     routes.forEach(route=>{
         const method = route.method
-        router[method](route.path,...route.handlers)
+        router[method](route.path,route.handler)
     })
 })
 app.use(router.routes()).use(router.allowedMethods());

@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 14:38:49
- * @LastEditTime 2021-01-28 16:36:07
+ * @LastEditTime 2021-01-28 18:49:14
  * @Description 读取控制器，将控制器转换为路由处理方法
  */
 import fs from 'fs';
@@ -15,7 +15,7 @@ import {getMethodMetaData,RouteConfig} from './decorators/methods'
 import {getDescriptor,Descriptor,validateMiddleware} from './decorators/validator'
 
 export interface Route extends RouteConfig {
-    handlers:Middleware[]
+    handler:Middleware
 }
 
 // 控制器文件夹
@@ -77,7 +77,18 @@ const controllerToRoute = function(controller:any):Route[]{
         const route:Route = {
             method:routeConfig.method,
             path:basePath+routeConfig.path,
-            handlers:[(ctx:Context,next:Next)=>validateMiddleware(ctx,next,descriptor),routeFunction ]
+            handler:async (ctx:Context,next:Next)=>{
+                // 验证参数
+                const errors = await validateMiddleware(ctx,descriptor)
+                
+                if(errors){
+                    ctx.invalidParams('参数验证不通过',errors)
+                }
+
+                if(!errors){
+                    return routeFunction(ctx,next)
+                }
+            }
         }
 
         routes.push(route)

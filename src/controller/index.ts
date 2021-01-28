@@ -17,9 +17,7 @@ export default class Index{
         }
     })
     async getDetail(ctx:Context,next:Next):Promise<void>{
-        await next()
-        ctx.status = 200
-        ctx.body = ctx.path
+        throw new Error(ctx.url)
     }
     
     @GET('/page')
