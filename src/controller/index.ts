@@ -16,7 +16,7 @@ export default class Index{
             required:true
         }
     })
-    async getDetail(ctx:Context,next:Next):Promise<void>{
+    async getDetail(ctx:Context):Promise<void>{
         throw new Error(ctx.url)
     }
     

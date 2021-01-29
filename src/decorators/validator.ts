@@ -2,11 +2,11 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2021-01-28 18:48:48
+ * @LastEditTime 2021-01-29 17:49:01
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
-import { Context, Next } from 'koa';
+import { Context } from 'koa';
 import Scheme from 'async-validator'
 
 export const validatorMetaKey = Symbol('validator')
