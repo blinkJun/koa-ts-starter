@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-01-28 18:57:24
+ * @LastEditTime 2021-01-29 18:49:17
  * @Description 
  */
 import Koa,{Context, Next} from 'koa'
@@ -28,7 +28,7 @@ app.use(async (ctx:Context, next:Next) => {
 });
 
 // 请求body格式化插件
-app.use(BodyParser())
+app.use(BodyParser()) 
 
 // 路由插件
 const router = new Router()
