@@ -6,6 +6,8 @@
 - [x] typescript编译：nodemon开发环境热更新，ts-node辅助编译
 - [x] husky git钩子提交前eslint检查代码，commitizen规范化git提交
 - [x] 具有常用的修饰方法修饰控制器
+- [x] 环境配置
+- [x] sequlize数据库工具
 
 ### 直接引入的koa插件
 路由：
