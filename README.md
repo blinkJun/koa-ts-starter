@@ -10,7 +10,7 @@
 - [x] sequlize数据库工具
 
 ### 直接引入的koa插件
-路由：
+- 路由：
 [koa-router](https://github.com/koajs/router/blob/HEAD/API.md)
-验证参数模块：
+- 验证参数模块：
 [async-validator](https://github.com/yiminghe/async-validator)
