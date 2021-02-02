@@ -29,7 +29,9 @@
     "async-validator": "^3.5.1",
     "koa": "^2.9.0",
     "koa-bodyparser": "^4.3.0",
-    "reflect-metadata": "^0.1.13"
+    "mysql2": "^2.2.5",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.5.0"
   },
   "devDependencies": {
     "@types/koa": "^2.11.6",
