@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:45:16
- * @LastEditTime 2021-02-02 18:25:01
+ * @LastEditTime 2021-02-03 10:41:30
  * @Description 选取对应的配置
  */
 import * as dev from './config.dev'
@@ -14,9 +14,14 @@ export interface MysqlConfig {
     host : string,
     database : string
 }
+export interface ServerConfig {
+    host:string,
+    port:number
+}
 
 export interface Config {
-    mysql:MysqlConfig
+    mysql:MysqlConfig,
+    server:ServerConfig
 }
 interface ConfigEnvMap {
     dev:Config

@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-02-02 18:26:06
+ * @LastEditTime 2021-02-03 10:41:47
  * @Description 
  */
 import Koa,{Context, Next} from 'koa'
@@ -11,6 +11,8 @@ import BodyParser from 'koa-bodyparser'
 import formatResBody from './middlewares/format-res-body'
 
 import {transferToRouteParams,Route} from './routes'
+
+import config from './config/index'
 
 const app:Koa = new Koa()
 
@@ -41,4 +43,4 @@ transferToRouteParams().then((routes:Route[])=>{
 app.use(router.routes()).use(router.allowedMethods());
 
 // 启动
-app.listen(3000)
+app.listen(config.server.port,config.server.host)
