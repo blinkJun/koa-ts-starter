@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:42:51
- * @LastEditTime 2021-02-03 10:12:05
+ * @LastEditTime 2021-03-01 11:44:27
  * @Description 开发环境配置
  */
 import {MysqlConfig,ServerConfig} from './index'
@@ -16,5 +16,5 @@ export const mysql:MysqlConfig = {
 
 export const server:ServerConfig = {
     host:'127.0.0.1',
-    port:3000
+    port:5301
 }

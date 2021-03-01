@@ -2,13 +2,13 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 16:02:46
- * @LastEditTime 2021-02-02 17:04:45
+ * @LastEditTime 2021-03-01 14:23:16
  * @Description 管理员模型
  */
 
-import {Sequelize,Model,ModelDefined,ModelOptions,DataTypes} from 'sequelize'
+import {Sequelize,Model,DataTypes,Optional} from 'sequelize'
 
-interface AdminInstance extends Model{
+interface AdminAttrbutes {
     id:number
     name:string
     password:string
@@ -19,8 +19,24 @@ interface AdminInstance extends Model{
     email:string
 }
 
-export default (sequelize:Sequelize):ModelDefined<AdminInstance,ModelOptions> =>{
-    return sequelize.define<AdminInstance>('Admin',{
+// Some attributes are optional in `User.build` and `User.create` calls
+interface AdminAttrbutesCreation extends Optional<AdminAttrbutes, 'id'> {
+    [propName:string]:any
+}
+
+class Admin extends Model<AdminAttrbutes, AdminAttrbutesCreation> implements AdminAttrbutes{
+    id!:number
+    name!:string
+    password!:string
+    head_pic!:string
+    role_id!:string
+    dept_id!:string
+    phone_number!:number
+    email!:string
+}
+
+export default (sequelize:Sequelize):typeof Admin=>{
+    Admin.init({
         id:{
             primaryKey:true,
             autoIncrement:true,
@@ -48,7 +64,10 @@ export default (sequelize:Sequelize):ModelDefined<AdminInstance,ModelOptions> =>
             type:DataTypes.STRING
         }
     },{
+        sequelize,
         tableName:'admins',
         timestamps: false
     })
+
+    return Admin
 }
