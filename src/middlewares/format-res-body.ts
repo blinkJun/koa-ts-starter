@@ -2,15 +2,29 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-28 17:38:24
- * @LastEditTime 2021-01-28 18:56:21
+ * @LastEditTime 2021-03-02 18:42:41
  * @Description 格式化返回值
  */
-import {Context, Next,Middleware} from 'koa'
+import {Context, Next, Middleware} from 'koa'
  
 export interface FormatResBodyOptions {
     successCode?:number,
     failCode?:number,
     validateFailCode?:number
+}
+
+export interface FormatResBodyHandle{
+    success:(msg:string,data:any)=>void
+    fail:(msg:string,data:any)=>void
+    invalidParams:(msg:string,data:any)=>void
+    serverError:(msg:string,data:any)=>void
+}
+
+export enum Code{
+    success = 0,
+    error = -1,
+    invalid = 400,
+    serverError = 500
 }
 
 export default (options?:FormatResBodyOptions):Middleware =>{
@@ -21,7 +35,7 @@ export default (options?:FormatResBodyOptions):Middleware =>{
         ctx.success = (msg:string,data:any)=>{
             ctx.status = 200
             ctx.body = {
-                code:successCode || 0,
+                code:successCode || Code.success,
                 msg:msg,
                 data:data
             }
@@ -30,7 +44,7 @@ export default (options?:FormatResBodyOptions):Middleware =>{
         ctx.fail = (msg:string,data:any)=>{
             ctx.status = 200
             ctx.body = {
-                code:failCode || -1,
+                code:failCode || Code.error,
                 msg:msg,
                 data:data
             }
@@ -39,15 +53,15 @@ export default (options?:FormatResBodyOptions):Middleware =>{
         ctx.invalidParams = (msg:string,data:any)=>{
             ctx.status = 200
             ctx.body = {
-                code:validateFailCode || 400,
+                code:validateFailCode || Code.invalid,
                 msg:msg,
                 data:data
             }
         }
 
-        // invalid params
+        // server error
         ctx.serverError = (msg:string,data:any)=>{
-            ctx.status = 200
+            ctx.status = 500
             ctx.body = {
                 code:500,
                 msg:msg,

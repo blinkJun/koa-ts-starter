@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 16:02:46
- * @LastEditTime 2021-03-01 14:23:16
+ * @LastEditTime 2021-03-02 17:50:10
  * @Description 管理员模型
  */
 
@@ -33,6 +33,11 @@ class Admin extends Model<AdminAttrbutes, AdminAttrbutesCreation> implements Adm
     dept_id!:string
     phone_number!:number
     email!:string
+
+    // timestamps!
+    public readonly createdAt!: Date;
+    public readonly updatedAt!: Date;
+
 }
 
 export default (sequelize:Sequelize):typeof Admin=>{
@@ -66,7 +71,9 @@ export default (sequelize:Sequelize):typeof Admin=>{
     },{
         sequelize,
         tableName:'admins',
-        timestamps: false
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     })
 
     return Admin

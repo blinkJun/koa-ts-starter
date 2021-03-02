@@ -2,12 +2,12 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2021-01-29 17:49:01
+ * @LastEditTime 2021-03-02 17:45:45
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
 import { Context } from 'koa';
-import Scheme from 'async-validator'
+import Scheme,{RuleItem} from 'async-validator'
 
 export const validatorMetaKey = Symbol('validator')
 
@@ -58,7 +58,19 @@ export const validateMiddleware:ValidateMiddleware = async function(ctx:Context,
         try{
             await validate(descriptor,data)
         }catch(err){
+            console.log(err)
             return err.errors
+        }
+    }
+}
+
+export const validators = {
+    number:(rule:RuleItem, value:any|null, callback:(error:Error|void)=>void):void => {
+        if (isNaN(Number(value))) {
+            rule.message = '请输入数字';
+            callback(new Error())
+        } else {
+            callback()
         }
     }
 }
