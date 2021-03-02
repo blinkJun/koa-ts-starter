@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:45:16
- * @LastEditTime 2021-02-03 10:41:30
+ * @LastEditTime 2021-03-02 15:49:25
  * @Description 选取对应的配置
  */
 import * as dev from './config.dev'
@@ -18,11 +18,18 @@ export interface ServerConfig {
     host:string,
     port:number
 }
+export interface CorsConfig{
+    whiteList:string[]
+}
 
 export interface Config {
     mysql:MysqlConfig,
-    server:ServerConfig
+    server:ServerConfig,
+    cors:CorsConfig
 }
+
+
+
 interface ConfigEnvMap {
     dev:Config
     [propName:string]:Config
