@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-28 17:38:24
- * @LastEditTime 2021-03-02 18:42:41
+ * @LastEditTime 2021-03-02 18:51:07
  * @Description 格式化返回值
  */
 import {Context, Next, Middleware} from 'koa'
@@ -14,10 +14,10 @@ export interface FormatResBodyOptions {
 }
 
 export interface FormatResBodyHandle{
-    success:(msg:string,data:any)=>void
-    fail:(msg:string,data:any)=>void
-    invalidParams:(msg:string,data:any)=>void
-    serverError:(msg:string,data:any)=>void
+    success:(msg:string,data?:any)=>void
+    fail:(msg:string,data?:any)=>void
+    invalidParams:(msg:string,data?:any)=>void
+    serverError:(msg:string,data?:any)=>void
 }
 
 export enum Code{
@@ -63,7 +63,7 @@ export default (options?:FormatResBodyOptions):Middleware =>{
         ctx.serverError = (msg:string,data:any)=>{
             ctx.status = 500
             ctx.body = {
-                code:500,
+                code:Code.serverError,
                 msg:msg,
                 data:data
             }
