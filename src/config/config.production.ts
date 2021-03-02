@@ -2,10 +2,10 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:44:35
- * @LastEditTime 2021-02-03 10:12:34
+ * @LastEditTime 2021-03-02 15:29:06
  * @Description 正式环境配置
  */
-import {MysqlConfig,ServerConfig} from './index'
+import {MysqlConfig,ServerConfig,JWTCofig,CorsConfig} from './index'
 
 export const mysql:MysqlConfig = {
     username : 'jun',
@@ -17,4 +17,12 @@ export const mysql:MysqlConfig = {
 export const server:ServerConfig = {
     host:'0.0.0.0',
     port:5301
+}
+
+export const jwt:JWTCofig = {
+    secrect:'hawk-admin-dev'
+}
+
+export const cors:CorsConfig = {
+    whiteList:['http://192.168.1.160:3000']
 }

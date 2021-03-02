@@ -2,12 +2,16 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-02-03 10:41:47
+ * @LastEditTime 2021-03-02 15:34:18
  * @Description 
  */
-import Koa,{Context, Next} from 'koa'
+import Koa from 'koa'
 import Router from '@koa/router'
 import BodyParser from 'koa-bodyparser'
+import Jwt from 'koa-jwt'
+
+import handleError from './middlewares/error'
+import setCors from './middlewares/cors'
 import formatResBody from './middlewares/format-res-body'
 
 import {transferToRouteParams,Route} from './routes'
@@ -16,18 +20,22 @@ import config from './config/index'
 
 const app:Koa = new Koa()
 
+// 全局错误状态管理
+app.use(handleError());
+
+// cors
+app.use(setCors(config.cors.whiteList))
+
+// json web token
+app.use(Jwt({
+    secret:config.jwt.secrect
+}).unless({
+    path:['/account/login','/account/getValidateCode']
+}))
+
 // 格式化返回值
 app.use(formatResBody())
 
-// 全局错误状态管理
-app.use(async (ctx:Context, next:Next) => {
-    try {
-        await next();
-    } catch (error) {
-        console.log(error);
-        ctx.serverError('服务器错误',error.message)
-    }
-});
 
 // 请求body格式化插件
 app.use(BodyParser()) 
