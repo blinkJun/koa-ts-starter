@@ -36,10 +36,20 @@ const adminValidator = {
 @Controller('/admins')
 export default class Index{
     @GET('/list')
+    @Validator({
+        page:{
+            type:'number',
+            required:true
+        },
+        limit:{
+            type:'number',
+            required:true
+        }
+    })
     async list(ctx:Context):Promise<void>{
         const {page,limit,name} = ctx.request.query
         const options = {
-            offset:Number(page)||1,
+            offset:Number(page)>0?Number(page)-1:0,
             limit:Number(limit)||9999,
             where:<any>{},
             attributes:{
