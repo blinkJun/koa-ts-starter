@@ -38,11 +38,11 @@ export default class Index{
     @GET('/list')
     @Validator({
         page:{
-            type:'number',
+            validator:validators.number,
             required:true
         },
         limit:{
-            type:'number',
+            validator:validators.number,
             required:true
         }
     })
@@ -90,7 +90,24 @@ export default class Index{
     async update(ctx:Context):Promise<void>{
         try{
             const id = ctx.request.body.id
+            const clientUser = ctx.state.user
+            const user = await AdminModel.findByPk(clientUser.id);
+
+            // 管理员或者本人才可更新
+            if(user){
+                const isAdmin = Number(user.role_id) === 1
+                const isSelf = clientUser.id === id
+                if(!isAdmin||!isSelf){
+                    ctx.fail('您无此权限操作，只能修改自己的信息，或者请使用管理员账户更改')
+                    return
+                }
+            }else{
+                ctx.fail('无此用户')
+            }
+
+            // 删除id
             delete ctx.request.body.id
+
             await AdminModel.update(ctx.request.body,{
                 where:{
                     id
@@ -105,6 +122,22 @@ export default class Index{
     @POST('/delete')
     async delete(ctx:Context):Promise<void>{
         try{
+            const clientUser = ctx.state.user
+            const user = await AdminModel.findByPk(clientUser.id);
+            
+            // 管理员才可删除
+            if(user){
+                const isAdmin = Number(user.role_id) === 1
+                if(!isAdmin){
+                    ctx.fail('您无此权限操作，请使用管理员账户删除')
+                    return
+                }
+            }else{
+                ctx.fail('无此用户')
+                return 
+            }
+
+
             const id = ctx.request.body.id
             await AdminModel.destroy({
                 where:{
