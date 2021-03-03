@@ -2,11 +2,16 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 16:02:46
- * @LastEditTime 2021-03-02 17:50:10
+ * @LastEditTime 2021-03-03 18:25:17
  * @Description 管理员模型
  */
 
 import {Sequelize,Model,DataTypes,Optional} from 'sequelize'
+
+enum Status {
+    normal=1,
+    warning=0
+}
 
 interface AdminAttrbutes {
     id:number
@@ -17,6 +22,7 @@ interface AdminAttrbutes {
     dept_id:string
     phone_number:number,
     email:string
+    status:Status
 }
 
 // Some attributes are optional in `User.build` and `User.create` calls
@@ -33,6 +39,7 @@ class Admin extends Model<AdminAttrbutes, AdminAttrbutesCreation> implements Adm
     dept_id!:string
     phone_number!:number
     email!:string
+    status!:Status
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -67,6 +74,9 @@ export default (sequelize:Sequelize):typeof Admin=>{
         },
         email:{
             type:DataTypes.STRING
+        },
+        status:{
+            type:DataTypes.INTEGER
         }
     },{
         sequelize,

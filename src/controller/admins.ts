@@ -81,15 +81,19 @@ export default class Index{
 
     @POST('/update')
     @Validator({
+        ...adminValidator,
         id:{
             validator:validators.number,
             required:true,
         },
-        ...adminValidator
+        password:{
+            type:'string',
+            required:false,
+        }
     })
     async update(ctx:Context):Promise<void>{
         try{
-            const id = ctx.request.body.id
+            const {id} = ctx.request.body
             const clientUser = ctx.state.user
             const user = await AdminModel.findByPk(clientUser.id);
 
@@ -124,7 +128,7 @@ export default class Index{
         try{
             const clientUser = ctx.state.user
             const user = await AdminModel.findByPk(clientUser.id);
-            
+
             // 管理员才可删除
             if(user){
                 const isAdmin = Number(user.role_id) === 1
