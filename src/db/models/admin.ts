@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 16:02:46
- * @LastEditTime 2021-03-03 18:25:17
+ * @LastEditTime 2021-03-04 18:11:53
  * @Description 管理员模型
  */
 
@@ -18,8 +18,8 @@ interface AdminAttrbutes {
     name:string
     password:string
     head_pic:string
-    role_id:string
-    dept_id:string
+    role_id:number
+    dept_id:number
     phone_number:number,
     email:string
     status:Status
@@ -35,8 +35,8 @@ class Admin extends Model<AdminAttrbutes, AdminAttrbutesCreation> implements Adm
     name!:string
     password!:string
     head_pic!:string
-    role_id!:string
-    dept_id!:string
+    role_id!:number
+    dept_id!:number
     phone_number!:number
     email!:string
     status!:Status
@@ -64,13 +64,13 @@ export default (sequelize:Sequelize):typeof Admin=>{
             type:DataTypes.STRING
         },
         role_id:{
-            type:DataTypes.STRING
+            type:DataTypes.INTEGER
         },
         dept_id:{
-            type:DataTypes.STRING
+            type:DataTypes.INTEGER
         },  
         phone_number:{
-            type:DataTypes.STRING
+            type:DataTypes.INTEGER
         },
         email:{
             type:DataTypes.STRING

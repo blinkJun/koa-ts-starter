@@ -1,28 +1,34 @@
 /*
  * @Author liangjun
  * @LastEditors liangjun
- * @Date 2021-03-04 09:58:22
- * @LastEditTime 2021-03-04 18:11:29
- * @Description 部门管理模型
+ * @Date 2021-03-04 18:02:27
+ * @LastEditTime 2021-03-04 18:09:54
+ * @Description 菜单管理
  */
-
 import {Sequelize,Model,DataTypes,Optional} from 'sequelize'
 
-interface DeptsAttrbutes {
+interface MenuAttrbutes {
     id:number
-    parent_id:number|null
     name:string
+    level:number
+    authorize_key:string
+    parent_id:number | null
+    static:number | null
 }
 
+
 // Some attributes are optional in `User.build` and `User.create` calls
-interface DeptsAttrbutesCreation extends Optional<DeptsAttrbutes, 'id'> {
+interface MenuAttrbutesCreation extends Optional<MenuAttrbutes, 'id'> {
     [propName:string]:any
 }
 
-class Depts extends Model<DeptsAttrbutes, DeptsAttrbutesCreation> implements DeptsAttrbutes{
+class Menu extends Model<MenuAttrbutes, MenuAttrbutesCreation> implements MenuAttrbutes{
     id!:number
     name!:string
+    level!:number
     parent_id!:number|null
+    authorize_key!:string
+    static!:number | null
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -30,8 +36,8 @@ class Depts extends Model<DeptsAttrbutes, DeptsAttrbutesCreation> implements Dep
 
 }
 
-export default (sequelize:Sequelize):typeof Depts=>{
-    Depts.init({
+export default (sequelize:Sequelize):typeof Menu=>{
+    Menu.init({
         id:{
             primaryKey:true,
             autoIncrement:true,
@@ -40,16 +46,25 @@ export default (sequelize:Sequelize):typeof Depts=>{
         name:{
             type:DataTypes.STRING
         },
+        level:{
+            type:DataTypes.INTEGER
+        },
         parent_id:{
+            type:DataTypes.INTEGER
+        },
+        authorize_key:{
+            type:DataTypes.STRING
+        },
+        static:{
             type:DataTypes.INTEGER
         }
     },{
         sequelize,
-        tableName:'depts',
+        tableName:'menus',
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     })
 
-    return Depts
+    return Menu
 }
