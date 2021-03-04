@@ -101,7 +101,7 @@ export default class Index{
             if(user){
                 const isAdmin = Number(user.role_id) === 1
                 const isSelf = clientUser.id === id
-                if(!isAdmin||!isSelf){
+                if(!isAdmin&&!isSelf){
                     ctx.fail('您无此权限操作，只能修改自己的信息，或者请使用管理员账户更改')
                     return
                 }
