@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2021-03-02 17:45:45
+ * @LastEditTime 2021-03-05 10:32:22
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
@@ -68,6 +68,14 @@ export const validators = {
     number:(rule:RuleItem, value:any|null, callback:(error:Error|void)=>void):void => {
         if (isNaN(Number(value))) {
             rule.message = '请输入数字';
+            callback(new Error())
+        } else {
+            callback()
+        }
+    },
+    array:(rule:RuleItem, value:any|null, callback:(error:Error|void)=>void):void => {
+        if (!Array.isArray(value)) {
+            rule.message = '请提交数组';
             callback(new Error())
         } else {
             callback()
