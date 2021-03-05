@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-03-04 18:02:27
- * @LastEditTime 2021-03-05 10:07:44
+ * @LastEditTime 2021-03-05 15:46:52
  * @Description 角色管理
  */
 import {Sequelize,Model,DataTypes,Optional} from 'sequelize'
@@ -10,7 +10,7 @@ import {Sequelize,Model,DataTypes,Optional} from 'sequelize'
 interface RoleAttrbutes {
     id:number
     name:string
-    auth_list:number
+    auth_list:string
     remark:string
 }
 
@@ -23,7 +23,7 @@ interface RoleAttrbutesCreation extends Optional<RoleAttrbutes, 'id'> {
 class Role extends Model<RoleAttrbutes, RoleAttrbutesCreation> implements RoleAttrbutes{
     id!:number
     name!:string
-    auth_list!:number
+    auth_list!:string
     remark!:string
 
     // timestamps!

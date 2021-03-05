@@ -49,6 +49,9 @@ export default class Index {
             // 排序
             order: [['created_at', 'DESC']]
         })
+        list.rows.forEach(row=>{
+            row.auth_list = JSON.parse(row.auth_list)
+        })
         ctx.success('获取成功！',list)
     }
 
@@ -59,7 +62,7 @@ export default class Index {
             
             await RoleModel.create({
                 ...ctx.request.body,
-                auth_list:ctx.request.body.auth_list.join(',')
+                auth_list:JSON.stringify(ctx.request.body.auth_list)
             });
             ctx.success('添加成功！')
         }catch(err){
@@ -84,7 +87,7 @@ export default class Index {
 
             await RoleModel.update({
                 ...ctx.request.body,
-                auth_list:ctx.request.body.auth_list.join(',')
+                auth_list:JSON.stringify(ctx.request.body.auth_list)
             },{
                 where:{
                     id
