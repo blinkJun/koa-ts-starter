@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-03-05 18:24:50
+ * @LastEditTime 2021-03-30 11:29:24
  * @Description 
  */
 import Koa from 'koa'
@@ -30,7 +30,7 @@ app.use(setCors(config.cors.whiteList))
 app.use(Jwt({
     secret:config.jwt.secrect
 }).unless({
-    path:['/account/login','/account/getValidateCode']
+    path:['/account/login','/account/getValidateCode','/wechat/code','/wechat/signature']
 }))
 
 // 格式化返回值
