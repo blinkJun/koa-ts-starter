@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2021-03-05 10:32:22
+ * @LastEditTime 2021-06-05 17:54:01
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
@@ -11,9 +11,7 @@ import Scheme,{RuleItem} from 'async-validator'
 
 export const validatorMetaKey = Symbol('validator')
 
-export type DecoratorHandler = (target:any,propertyKey:string)=>void
-
-export type ValidateMiddleware = (ctx:Context,discirptor:Descriptor) => Promise<any[]|undefined>
+export type ValidateHandler = (ctx:Context,discirptor:Descriptor) => Promise<any[]|undefined>
 
 export interface Descriptor {
   [propName:string]:any
@@ -24,13 +22,13 @@ export interface ValidateData {
 
 
 // 添加元数据
-export const Validator = function(descriptor:Descriptor):DecoratorHandler{
-    return (target:()=>any,propertyKey:string)=>{
-        return Reflect.defineMetadata(validatorMetaKey,descriptor,target,propertyKey)
+export const Validator = function(descriptor:Descriptor):PropertyDecorator{
+    return (target,propertyKey)=>{
+        Reflect.defineMetadata(validatorMetaKey,descriptor,target,propertyKey)
     }
 }
 // 获取元数据
-export const getDescriptor = function(target:()=>any,propertyKey:string):any{
+export const getValidetorDescriptor = function(target:()=>any,propertyKey:string):Descriptor{
     return Reflect.getMetadata(validatorMetaKey,target,propertyKey)
 }
 
@@ -42,7 +40,7 @@ export const validate = async function(descriptor:Descriptor,data:ValidateData):
 }
 
 // 该如何进行验证
-export const validateMiddleware:ValidateMiddleware = async function(ctx:Context,descriptor?:Descriptor){
+export const validateHandler:ValidateHandler = async function(ctx:Context,descriptor?:Descriptor){
     if(descriptor){
         // 需要验证的参数
         let data = {}

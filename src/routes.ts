@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 14:38:49
- * @LastEditTime 2021-01-28 18:49:14
+ * @LastEditTime 2021-06-05 17:52:37
  * @Description 读取控制器，将控制器转换为路由处理方法
  */
 import fs from 'fs';
@@ -12,7 +12,8 @@ import path from 'path';
 import 'reflect-metadata';
 import {getControllerMetaData} from './decorators/controller'
 import {getMethodMetaData,RouteConfig} from './decorators/methods'
-import {getDescriptor,Descriptor,validateMiddleware} from './decorators/validator'
+import {getValidetorDescriptor,validateHandler} from './decorators/validator'
+import {getAuthCode,validateAuth} from './decorators/permissions'
 
 export interface Route extends RouteConfig {
     handler:Middleware
@@ -66,10 +67,11 @@ const controllerToRoute = function(controller:any):Route[]{
         // 获得该控制器方法
         const routeFunction = Reflect.get(controller.prototype,key)
         // 获得该控制器方法的 路由配置
-        const routeConfig:RouteConfig = getMethodMetaData(controller.prototype,key as string)
+        const routeConfig = getMethodMetaData(controller.prototype,key as string)
         // 获得该控制器方法的 参数验证配置
-        const descriptor:Descriptor =  getDescriptor(controller.prototype,key as string)
-
+        const validatorDescriptor =  getValidetorDescriptor(controller.prototype,key as string)
+        // 获得该控制器方法的 权限配置
+        const authCode = getAuthCode(controller.prototype,key as string)
         // 没有路由配置则忽略此方法
         if(!routeConfig) return;
 
@@ -78,16 +80,28 @@ const controllerToRoute = function(controller:any):Route[]{
             method:routeConfig.method,
             path:basePath+routeConfig.path,
             handler:async (ctx:Context,next:Next)=>{
-                // 验证参数
-                const errors = await validateMiddleware(ctx,descriptor)
-                
-                if(errors){
-                    ctx.invalidParams('参数验证不通过',errors)
+                // 验证权限
+                let passAuth = true
+                if(authCode){
+                    passAuth = await validateAuth(ctx,authCode)
                 }
 
-                if(!errors){
-                    return routeFunction(ctx,next)
+                if(!passAuth){
+                    ctx.fail('暂无此接口权限，请向管理员申请')
                 }
+                
+                if(passAuth){
+                    // 验证参数
+                    const errors = await validateHandler(ctx,validatorDescriptor)
+                    
+                    if(errors){
+                        ctx.invalidParams('参数验证不通过',errors)
+                    }
+                    if(!errors){
+                        return routeFunction(ctx,next)
+                    }
+                }
+
             }
         }
 

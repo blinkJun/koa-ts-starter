@@ -2,7 +2,7 @@ import {Context} from 'koa'
 import {Controller} from '../decorators/controller'
 import {GET, POST} from '../decorators/methods'
 import {Validator,validators} from '../decorators/validator'
-
+import {Auth} from '../decorators/permissions'
 import {RoleModel,AdminModel} from '../db/index'
 
 const validateConfig = {
@@ -23,6 +23,7 @@ const validateConfig = {
 @Controller('/role')
 export default class Index {
     @GET('/list')
+    @Auth('system:menus:update')
     @Validator({
         page:{
             validator:validators.number,
@@ -53,6 +54,19 @@ export default class Index {
             row.auth_list = JSON.parse(row.auth_list)
         })
         ctx.success('获取成功！',list)
+    }
+
+    @GET('/detail')
+    @Validator({
+        id:{
+            validator:validators.number,
+            required:true
+        }
+    })
+    async detail(ctx:Context):Promise<void>{
+        const {id} = ctx.request.query
+        const role = await RoleModel.findByPk(id)
+        ctx.success('获取成功！',role)
     }
 
     @POST('/create')

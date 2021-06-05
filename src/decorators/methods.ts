@@ -10,8 +10,8 @@ export interface RouteConfig {
 export type decoratorHandler = (target:any,propertyKey:string)=>void
 export type decoratorCreator = (method:string,path:string)=>decoratorHandler
 
-const methodDecoratorCreator:decoratorCreator = function(method:string,path:string):decoratorHandler{
-    return (target:any,propertyKey:string)=>{
+const methodDecoratorCreator:decoratorCreator = function(method:string,path:string):PropertyDecorator{
+    return (target,propertyKey)=>{
         Reflect.defineMetadata(methodMetaKey,{
             method,
             path
