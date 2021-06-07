@@ -30,11 +30,11 @@ jobs:
       - name: ssh scp ssh pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
-          WELCOME: "ssh scp ssh pipelines"
-          LASTSSH: "Doing something after copying"
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
         with:
           # 服务器的ip
-         host: ${{ secrets.SERVER_IP }} 
+          host: ${{ secrets.SERVER_IP }} 
           # 服务器的账号
           user: root
           # 服务器的密码
