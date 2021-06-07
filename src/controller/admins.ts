@@ -4,6 +4,7 @@ import { Op } from 'sequelize'
 
 import {Controller} from '../decorators/controller'
 import {GET, POST} from '../decorators/methods'
+import {Auth} from '../decorators/permissions'
 import {Validator,validators} from '../decorators/validator'
 
 import {AdminModel} from '../db/index'
@@ -38,6 +39,7 @@ const adminValidator = {
 @Controller('/admins')
 export default class Index{
     @GET('/list')
+    @Auth('system:admin')
     @Validator({
         page:{
             validator:validators.number,
@@ -75,6 +77,7 @@ export default class Index{
     }
 
     @POST('/create')
+    @Auth('system:admin:create')
     @Validator(adminValidator)
     async create(ctx:Context):Promise<void>{
         try{
@@ -86,6 +89,7 @@ export default class Index{
     }
 
     @POST('/update')
+    @Auth('system:admin:update')
     @Validator({
         ...adminValidator,
         id:{
@@ -130,6 +134,7 @@ export default class Index{
     }
 
     @POST('/delete')
+    @Auth('system:admin:del')
     @Validator({
         id:{
             validator:validators.number,

@@ -2,7 +2,7 @@ import {Context} from 'koa'
 import {Controller} from '../decorators/controller'
 import {GET, POST} from '../decorators/methods'
 import {Validator,validators} from '../decorators/validator'
-
+import {Auth} from '../decorators/permissions'
 import {MenuModel,AdminModel} from '../db/index'
 
 const validateConfig = {
@@ -27,6 +27,7 @@ const validateConfig = {
 @Controller('/menus')
 export default class Index {
     @GET('/list')
+    @Auth('system:menu')
     @Validator({
         page:{
             validator:validators.number,
@@ -57,6 +58,7 @@ export default class Index {
     }
 
     @POST('/create')
+    @Auth('system:menu:create')
     @Validator(validateConfig)
     async create(ctx:Context):Promise<void>{
         try{
@@ -68,6 +70,7 @@ export default class Index {
     }
 
     @POST('/update')
+    @Auth('system:menu:update')
     @Validator({
         ...validateConfig,
         id:{
@@ -94,6 +97,7 @@ export default class Index {
     }
 
     @POST('/delete')
+    @Auth('system:menu:del')
     @Validator({
         id:{
             validator:validators.number,

@@ -2,7 +2,7 @@ import {Context} from 'koa'
 import {Controller} from '../decorators/controller'
 import {GET, POST} from '../decorators/methods'
 import {Validator,validators} from '../decorators/validator'
-
+import {Auth} from '../decorators/permissions'
 import {DeptsModel,AdminModel} from '../db/index'
 
 const deptValidator = {
@@ -19,6 +19,7 @@ const deptValidator = {
 @Controller('/depts')
 export default class Index {
     @GET('/list')
+    @Auth('system:dept')
     @Validator({
         page:{
             validator:validators.number,
@@ -49,6 +50,7 @@ export default class Index {
     }
 
     @POST('/create')
+    @Auth('system:dept:create')
     @Validator(deptValidator)
     async create(ctx:Context):Promise<void>{
         try{
@@ -60,6 +62,7 @@ export default class Index {
     }
 
     @POST('/update')
+    @Auth('system:dept:update')
     @Validator({
         ...deptValidator,
         id:{
@@ -86,6 +89,7 @@ export default class Index {
     }
 
     @POST('/delete')
+    @Auth('system:dept:del')
     @Validator({
         id:{
             validator:validators.number,

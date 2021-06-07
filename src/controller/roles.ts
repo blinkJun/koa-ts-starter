@@ -23,7 +23,7 @@ const validateConfig = {
 @Controller('/role')
 export default class Index {
     @GET('/list')
-    @Auth('system:menus:update')
+    @Auth('system:role')
     @Validator({
         page:{
             validator:validators.number,
@@ -56,20 +56,9 @@ export default class Index {
         ctx.success('获取成功！',list)
     }
 
-    @GET('/detail')
-    @Validator({
-        id:{
-            validator:validators.number,
-            required:true
-        }
-    })
-    async detail(ctx:Context):Promise<void>{
-        const {id} = ctx.request.query
-        const role = await RoleModel.findByPk(id)
-        ctx.success('获取成功！',role)
-    }
 
     @POST('/create')
+    @Auth('system:role:create')
     @Validator(validateConfig)
     async create(ctx:Context):Promise<void>{
         try{
@@ -85,6 +74,7 @@ export default class Index {
     }
 
     @POST('/update')
+    @Auth('system:role:update')
     @Validator({
         ...validateConfig,
         id:{
@@ -114,6 +104,7 @@ export default class Index {
     }
 
     @POST('/delete')
+    @Auth('system:role:del')
     @Validator({
         id:{
             validator:validators.number,

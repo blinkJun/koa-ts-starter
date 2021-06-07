@@ -7,8 +7,7 @@ import config from '../config'
 import jwt from 'jsonwebtoken'
 import svgCaptcha from 'svg-captcha'
 import {encrypt,decrypt} from '../helpers/encode'
-
-import {AdminModel} from '../db/index'
+import {AdminModel,RoleModel,MenuModel} from '../db/index'
 
 @Controller('/account')
 export default class Index{
@@ -72,5 +71,21 @@ export default class Index{
             svg:data,
             validateCodeHash:encrypt(text)
         })
+    }
+
+    // 获取用户的权限列表 
+    @GET('/authList')
+    async authList(ctx:Context):Promise<void>{
+        const {id} = ctx.state.user;
+        const userInfo = await AdminModel.findByPk(id)
+        const role = await RoleModel.findByPk(userInfo?.role_id)
+        const roleAuthList:number[] = JSON.parse(role?.auth_list as string)
+        const {rows} = await MenuModel.findAndCountAll({
+            // 排序
+            order: [['created_at', 'DESC']]
+        })
+        const userAuthList = rows.filter(row=>roleAuthList.includes(row.id))
+        const userAuthListCode = userAuthList.map(auth=>auth.authorize_key)
+        ctx.success('获取成功！',userAuthListCode)
     }
 }
