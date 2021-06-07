@@ -45,7 +45,7 @@ jobs:
             rm -rf dist
             rm package.json
           scp: | # 将build生成的文件从GitHub服务器的相应目录，传到我服务器的相应目录
-            ./dist => /node/hawk-server/dist
+            ./dist => /node/hawk-server
             ./package.json => /node/hawk-server
           last_ssh: | # 这部分是在服务器上，传输文件后执行的命令，新版本重新安装依赖并运行
             cd /node/hawk-server
