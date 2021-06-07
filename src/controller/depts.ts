@@ -54,7 +54,8 @@ export default class Index {
     @Validator(deptValidator)
     async create(ctx:Context):Promise<void>{
         try{
-            await DeptsModel.create(ctx.request.body);
+            const postData = ctx.request.body as any
+            await DeptsModel.create(postData);
             ctx.success('添加成功！')
         }catch(err){
             ctx.fail(`添加失败:${err.message}`)
@@ -72,12 +73,13 @@ export default class Index {
     })
     async update(ctx:Context):Promise<void>{
         try{
-            const {id} = ctx.request.body
+            const postData = ctx.request.body as any
+            const {id} = postData
 
             // 删除id
-            delete ctx.request.body.id
+            delete postData.id
 
-            await DeptsModel.update(ctx.request.body,{
+            await DeptsModel.update(postData,{
                 where:{
                     id
                 }
@@ -113,8 +115,8 @@ export default class Index {
                 return 
             }
 
-
-            const id = ctx.request.body.id
+            const postData = ctx.request.body as any
+            const id = postData.id
             await DeptsModel.destroy({
                 where:{
                     id

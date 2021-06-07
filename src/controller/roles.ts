@@ -62,10 +62,10 @@ export default class Index {
     @Validator(validateConfig)
     async create(ctx:Context):Promise<void>{
         try{
-            
+            const postData = ctx.request.body as any
             await RoleModel.create({
-                ...ctx.request.body,
-                auth_list:JSON.stringify(ctx.request.body.auth_list)
+                ...postData,
+                auth_list:JSON.stringify(postData.auth_list)
             });
             ctx.success('添加成功！')
         }catch(err){
@@ -84,14 +84,15 @@ export default class Index {
     })
     async update(ctx:Context):Promise<void>{
         try{
-            const {id} = ctx.request.body
+            const postData = ctx.request.body as any
+            const {id} = postData
 
             // 删除id
-            delete ctx.request.body.id
+            delete postData.id
 
             await RoleModel.update({
-                ...ctx.request.body,
-                auth_list:JSON.stringify(ctx.request.body.auth_list)
+                ...postData,
+                auth_list:JSON.stringify(postData.auth_list)
             },{
                 where:{
                     id
@@ -113,7 +114,8 @@ export default class Index {
     })
     async delete(ctx:Context):Promise<void>{
         try{
-            const id = ctx.request.body.id
+            const postData = ctx.request.body as any
+            const id = postData.id
 
             const clientUser = ctx.state.user
             const user = await AdminModel.findByPk(clientUser.id);

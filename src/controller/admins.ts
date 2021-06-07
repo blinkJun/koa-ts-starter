@@ -81,7 +81,8 @@ export default class Index{
     @Validator(adminValidator)
     async create(ctx:Context):Promise<void>{
         try{
-            await AdminModel.create(ctx.request.body);
+            const postData = ctx.request.body as any
+            await AdminModel.create(postData);
             ctx.success('添加成功！')
         }catch(err){
             ctx.fail(`添加失败:${err.message}`)
@@ -103,10 +104,11 @@ export default class Index{
     })
     async update(ctx:Context):Promise<void>{
         try{
-            const {id} = ctx.request.body
+            const postData = ctx.request.body as any
+            const {id} = postData
             const clientUser = ctx.state.user
             const user = await AdminModel.findByPk(clientUser.id);
-
+            
             // 管理员或者本人才可更新
             if(user){
                 const isAdmin = Number(user.role_id) === 1
@@ -118,11 +120,11 @@ export default class Index{
             }else{
                 ctx.fail('无此用户')
             }
-
+            
             // 删除id
-            delete ctx.request.body.id
-
-            await AdminModel.update(ctx.request.body,{
+            delete postData.id
+            
+            await AdminModel.update(postData,{
                 where:{
                     id
                 }
@@ -158,8 +160,8 @@ export default class Index{
                 return 
             }
 
-
-            const id = ctx.request.body.id
+            const postData = ctx.request.body as any
+            const id = postData.id
             await AdminModel.destroy({
                 where:{
                     id

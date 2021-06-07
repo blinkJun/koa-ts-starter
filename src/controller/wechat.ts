@@ -87,7 +87,7 @@ export default class Index {
     @GET('/signature')
     async signature(ctx:Context):Promise<void>{
         let {url} = ctx.request.query
-        url = decodeURIComponent(url)
+        url = decodeURIComponent(url as string)
         const {access_token} = await getAccessToken()
         const {ticket} = await getTicket(access_token)
         const ret = {

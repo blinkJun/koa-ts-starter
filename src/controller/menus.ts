@@ -62,7 +62,8 @@ export default class Index {
     @Validator(validateConfig)
     async create(ctx:Context):Promise<void>{
         try{
-            await MenuModel.create(ctx.request.body);
+            const postData = ctx.request.body as any
+            await MenuModel.create(postData);
             ctx.success('添加成功！')
         }catch(err){
             ctx.fail(`添加失败:${err.message}`)
@@ -80,12 +81,13 @@ export default class Index {
     })
     async update(ctx:Context):Promise<void>{
         try{
-            const {id} = ctx.request.body
+            const postData = ctx.request.body as any
+            const {id} = postData
 
             // 删除id
-            delete ctx.request.body.id
+            delete postData.id
 
-            await MenuModel.update(ctx.request.body,{
+            await MenuModel.update(postData,{
                 where:{
                     id
                 }
@@ -106,7 +108,8 @@ export default class Index {
     })
     async delete(ctx:Context):Promise<void>{
         try{
-            const id = ctx.request.body.id
+            const postData = ctx.request.body as any
+            const id = postData.id
 
             const clientUser = ctx.state.user
             const user = await AdminModel.findByPk(clientUser.id);

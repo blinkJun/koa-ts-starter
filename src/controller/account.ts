@@ -28,7 +28,7 @@ export default class Index{
         }
     })
     async login(ctx:Context):Promise<void>{
-        const {account,password,validateCode,validateCodeHash} = ctx.request.body
+        const {account,password,validateCode,validateCodeHash} = ctx.request.body as any
 
         if(decrypt(validateCodeHash).toLowerCase()!==(validateCode as string).toLowerCase()){
             ctx.fail('验证码错误')
