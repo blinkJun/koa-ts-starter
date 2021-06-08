@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-06-07 17:36:16
- * @LastEditTime 2021-06-07 17:55:46
+ * @LastEditTime 2021-06-08 11:11:51
  * @Description 输出日志的打印方法
  */
 import { Context, Request } from 'koa';
@@ -32,9 +32,11 @@ const formatText = {
         logText += '*************** info log end ***************' + '\n';
         return logText;
     },
-    request: function(req:Request, resTime=new Date()):string {
+    request: function(req:Request,startDate:Date, endDate:Date=new Date()):string {
         let logText = '';
         const method = req.method;
+        //请求的时间
+        logText += 'request time: ' + startDate + '\n';
         //访问方法
         logText += 'request method: ' + method + '\n';
         //请求原始地址
@@ -48,15 +50,17 @@ const formatText = {
             logText += 'request body: ' + '\n' + JSON.stringify(req.body) + '\n';
         }
         //服务器响应时间
-        logText += 'response time: ' + resTime + '\n';
+        logText += 'response time: ' + endDate + '\n';
+        // 接收和响应间隔时间
+        logText += 'pass time: ' + (endDate.getTime() - startDate.getTime()) + 'ms\n';
         return logText;
     },
-    response: function(ctx:Context, resTime=new Date()) {
+    response: function(ctx:Context, startDate:Date,endDate?:Date) {
         let logText = new String();
         //响应日志开始
         logText += '\n' + '*************** response log start ***************' + '\n';
         //添加请求日志
-        logText += formatText.request(ctx.request, resTime);
+        logText += formatText.request(ctx.request, startDate,endDate);
         //响应状态码
         logText += 'response status: ' + ctx.status + '\n';
         //响应内容
@@ -104,9 +108,9 @@ export const logInfo = function(info:Info):void {
     }
 }
 //封装响应日志
-export const logResponse = function(ctx:Context, resTime?:Date):void {
+export const logResponse = function(ctx:Context, startDate:Date,endDate?:Date):void {
     if (ctx) {
-        resLogger.info(formatText.response(ctx, resTime));
+        resLogger.info(formatText.response(ctx, startDate,endDate));
     }
 }
 //封装操作日志
