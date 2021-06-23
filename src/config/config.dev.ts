@@ -2,14 +2,15 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:42:51
- * @LastEditTime 2021-03-11 18:50:02
+ * @LastEditTime 2021-06-22 21:00:10
  * @Description 开发环境配置
  */
 import {MysqlConfig,ServerConfig,JWTCofig,CorsConfig} from './index'
 
+// department jun@123456
 export const mysql:MysqlConfig = {
-    username : 'jun',
-    password : '123456',
+    username : 'root',
+    password : '8120102',
     host : '127.0.0.1',
     database : 'console'
 }
@@ -24,5 +25,5 @@ export const jwt:JWTCofig = {
 }
 
 export const cors:CorsConfig = {
-    whiteList:['http://192.168.1.169:3000']
+    whiteList:['http://localhost:3000']
 }
