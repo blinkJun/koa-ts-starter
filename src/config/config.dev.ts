@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:42:51
- * @LastEditTime 2021-06-22 21:00:10
+ * @LastEditTime 2021-06-23 22:07:14
  * @Description 开发环境配置
  */
 import {MysqlConfig,ServerConfig,JWTCofig,CorsConfig} from './index'
@@ -12,7 +12,7 @@ export const mysql:MysqlConfig = {
     username : 'root',
     password : '8120102',
     host : '127.0.0.1',
-    database : 'console'
+    database : 'console_demo'
 }
 
 export const server:ServerConfig = {
