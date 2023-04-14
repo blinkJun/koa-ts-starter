@@ -4,7 +4,7 @@ import { Controller } from '../decorators/controller'
 import { GET, POST } from '../decorators/methods'
 import { Validator } from '../decorators/validator'
 
-import { AdminModel } from '../db/index'
+import { AdminModel,DeptsModel } from '../db/index'
 
 @Controller('/index')
 export default class Index {
@@ -19,14 +19,23 @@ export default class Index {
         }
     })
     async getDetail(ctx: Context): Promise<void> {
-    interface Query {
-      id:string
+        interface Query {
+            id: string
+        }
+        const instance = await AdminModel.findByPk((ctx.request.body as Query).id)
+        ctx.success('查询成功', {
+            user: instance,
+            env: process.env['NODE_ENV']
+        })
     }
-    const instance = await AdminModel.findByPk((ctx.request.body as Query).id)
-    ctx.success('查询成功', {
-        user: instance,
-        env: process.env['NODE_ENV']
-    })
+
+    @GET('/test')
+    async testmodel(ctx: Context): Promise<void> {
+        const instance = await DeptsModel.findAll()
+        ctx.success('查询成功', {
+            user: instance,
+            env: process.env['NODE_ENV']
+        })
     }
 
     @GET('/page')

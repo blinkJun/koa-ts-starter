@@ -2,14 +2,14 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 17:42:51
- * @LastEditTime 2021-03-02 15:47:26
+ * @LastEditTime 2023-04-14 14:25:48
  * @Description 开发环境配置
  */
 import {MysqlConfig,ServerConfig,CorsConfig} from './index'
 
 export const mysql:MysqlConfig = {
-    username : 'jun',
-    password : '123456',
+    username : 'root',
+    password : 'admin',
     host : '127.0.0.1',
     database : 'console'
 }
