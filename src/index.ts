@@ -35,10 +35,10 @@ app.use(BodyParser())
 // 路由插件
 const router = new Router()
 transferToRouteParams().then((routes: Route[]) => {
-  routes.forEach(route => {
-    const method = route.method
-    router[method](route.path, route.handler)
-  })
+    routes.forEach(route => {
+        const method = route.method
+        router[method](route.path, route.handler)
+    })
 })
 app.use(router.routes()).use(router.allowedMethods());
 

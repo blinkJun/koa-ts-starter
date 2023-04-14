@@ -36,38 +36,38 @@ class Admin extends Model<AdminAttrbutes, AdminAttrbutesCreation> implements Adm
 }
 
 export default (sequelize: Sequelize): typeof Admin => {
-  Admin.init({
-    id: {
-      primaryKey: true,
-      autoIncrement: true,
-      type: DataTypes.INTEGER.UNSIGNED,
-    },
-    name: {
-      type: DataTypes.STRING
-    },
-    password: {
-      type: DataTypes.STRING
-    },
-    head_pic: {
-      type: DataTypes.STRING
-    },
-    role_id: {
-      type: DataTypes.STRING
-    },
-    dept_id: {
-      type: DataTypes.STRING
-    },
-    phone_number: {
-      type: DataTypes.STRING
-    },
-    email: {
-      type: DataTypes.STRING
-    }
-  }, {
-    sequelize,
-    tableName: 'admins',
-    timestamps: false
-  })
+    Admin.init({
+        id: {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER.UNSIGNED,
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        password: {
+            type: DataTypes.STRING
+        },
+        head_pic: {
+            type: DataTypes.STRING
+        },
+        role_id: {
+            type: DataTypes.STRING
+        },
+        dept_id: {
+            type: DataTypes.STRING
+        },
+        phone_number: {
+            type: DataTypes.STRING
+        },
+        email: {
+            type: DataTypes.STRING
+        }
+    }, {
+        sequelize,
+        tableName: 'admins',
+        timestamps: false
+    })
 
-  return Admin
+    return Admin
 }

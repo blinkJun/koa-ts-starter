@@ -11,21 +11,21 @@ export type decoratorHandler = (target:any,propertyKey:string)=>void
 export type decoratorCreator = (method:string,path:string)=>decoratorHandler
 
 const methodDecoratorCreator:decoratorCreator = function(method:string,path:string):decoratorHandler{
-  return (target:any,propertyKey:string)=>{
-    Reflect.defineMetadata(methodMetaKey,{
-      method,
-      path
-    },target,propertyKey)
-  }
+    return (target:any,propertyKey:string)=>{
+        Reflect.defineMetadata(methodMetaKey,{
+            method,
+            path
+        },target,propertyKey)
+    }
 }
 
 export function getMethodMetaData(target:()=>any,propertyKey:string):RouteConfig{
-  return Reflect.getMetadata(methodMetaKey,target,propertyKey)
+    return Reflect.getMetadata(methodMetaKey,target,propertyKey)
 }
 
 export function GET(path:string):decoratorHandler{
-  return methodDecoratorCreator('get',path)
+    return methodDecoratorCreator('get',path)
 } 
 export function POST(path:string):decoratorHandler{
-  return methodDecoratorCreator('post',path)
+    return methodDecoratorCreator('post',path)
 } 

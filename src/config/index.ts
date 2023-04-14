@@ -36,8 +36,8 @@ interface ConfigEnvMap {
 }
 
 const configEnvMap:ConfigEnvMap = {
-  dev,
-  production
+    dev,
+    production
 }
 
 declare const process : {

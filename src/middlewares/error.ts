@@ -8,16 +8,16 @@
 import { Context, Next, Middleware } from 'koa'
 
 export default (): Middleware => {
-  return async (ctx: Context, next: Next) => {
-    try {
-      await next();
-    } catch (error: any) {
-      if (error.status === 401) {
-        ctx.status = 401;
-        ctx.body = 'Protected resource, use Authorization header to get access\n';
-      } else {
-        ctx.serverError('服务器错误', error.message)
-      }
+    return async (ctx: Context, next: Next) => {
+        try {
+            await next();
+        } catch (error: any) {
+            if (error.status === 401) {
+                ctx.status = 401;
+                ctx.body = 'Protected resource, use Authorization header to get access\n';
+            } else {
+                ctx.serverError('服务器错误', error.message)
+            }
+        }
     }
-  }
 }
