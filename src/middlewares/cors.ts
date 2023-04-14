@@ -14,21 +14,21 @@ export interface FormatResBodyOptions {
 }
 
 export default (whiteList:string[]):Middleware =>{
-    return async (ctx:Context,next:Next)=>{
-        //设置允许跨域请求
-        const {origin} = ctx.req.headers
+  return async (ctx:Context,next:Next)=>{
+    //设置允许跨域请求
+    const {origin} = ctx.req.headers
 
-        if(origin&&whiteList.includes(origin)){
-            ctx.set('Access-Control-Allow-Origin',origin)
-            ctx.set('Access-Control-Allow-Methods','PUT,POST,GET,DELETE,OPTIONS');
-            ctx.set('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
-        }
-
-        if(ctx.method == 'OPTIONS'){
-            ctx.status = 204
-            ctx.body = ''
-        }else{
-            await next();
-        }
+    if(origin&&whiteList.includes(origin)){
+      ctx.set('Access-Control-Allow-Origin',origin)
+      ctx.set('Access-Control-Allow-Methods','PUT,POST,GET,DELETE,OPTIONS');
+      ctx.set('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
     }
+
+    if(ctx.method == 'OPTIONS'){
+      ctx.status = 204
+      ctx.body = ''
+    }else{
+      await next();
+    }
+  }
 }

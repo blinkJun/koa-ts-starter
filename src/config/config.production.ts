@@ -8,18 +8,18 @@
 import {MysqlConfig,ServerConfig,CorsConfig} from './index'
 
 export const mysql:MysqlConfig = {
-    username : 'jun',
-    password : '123456',
-    host : '127.0.0.1',
-    database : 'console'
+  username : 'jun',
+  password : '123456',
+  host : '127.0.0.1',
+  database : 'console'
 }
 
 export const server:ServerConfig = {
-    host:'0.0.0.0',
-    port:5301
+  host:'0.0.0.0',
+  port:5301
 }
 
 
 export const cors:CorsConfig = {
-    whiteList:['http://192.168.1.160:3000']
+  whiteList:['http://192.168.1.160:3000']
 }

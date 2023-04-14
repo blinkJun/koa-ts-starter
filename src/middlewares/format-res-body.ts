@@ -14,47 +14,47 @@ export interface FormatResBodyOptions {
 }
 
 export default (options?:FormatResBodyOptions):Middleware =>{
-    const {successCode,failCode,validateFailCode} = options || {}
-    return async (ctx:Context,next:Next)=>{
+  const {successCode,failCode,validateFailCode} = options || {}
+  return async (ctx:Context,next:Next)=>{
         
-        // 成功方法
-        ctx.success = (msg:string,data:any)=>{
-            ctx.status = 200
-            ctx.body = {
-                code:successCode || 0,
-                msg:msg,
-                data:data
-            }
-        }
-        // 失败方法
-        ctx.fail = (msg:string,data:any)=>{
-            ctx.status = 200
-            ctx.body = {
-                code:failCode || -1,
-                msg:msg,
-                data:data
-            }
-        }
-        // invalid params
-        ctx.invalidParams = (msg:string,data:any)=>{
-            ctx.status = 200
-            ctx.body = {
-                code:validateFailCode || 400,
-                msg:msg,
-                data:data
-            }
-        }
-
-        // invalid params
-        ctx.serverError = (msg:string,data:any)=>{
-            ctx.status = 200
-            ctx.body = {
-                code:500,
-                msg:msg,
-                data:data
-            }
-        }
-
-        await next();
+    // 成功方法
+    ctx.success = (msg:string,data:any)=>{
+      ctx.status = 200
+      ctx.body = {
+        code:successCode || 0,
+        msg:msg,
+        data:data
+      }
     }
+    // 失败方法
+    ctx.fail = (msg:string,data:any)=>{
+      ctx.status = 200
+      ctx.body = {
+        code:failCode || -1,
+        msg:msg,
+        data:data
+      }
+    }
+    // invalid params
+    ctx.invalidParams = (msg:string,data:any)=>{
+      ctx.status = 200
+      ctx.body = {
+        code:validateFailCode || 400,
+        msg:msg,
+        data:data
+      }
+    }
+
+    // invalid params
+    ctx.serverError = (msg:string,data:any)=>{
+      ctx.status = 200
+      ctx.body = {
+        code:500,
+        msg:msg,
+        data:data
+      }
+    }
+
+    await next();
+  }
 }

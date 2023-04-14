@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2021-03-02 15:49:36
+ * @LastEditTime 2023-04-14 10:49:36
  * @Description 
  */
 import Koa from 'koa'
@@ -13,11 +13,11 @@ import handleError from './middlewares/error'
 import setCors from './middlewares/cors'
 import formatResBody from './middlewares/format-res-body'
 
-import {transferToRouteParams,Route} from './routes'
+import { transferToRouteParams, Route } from './routes'
 
 import config from './config/index'
 
-const app:Koa = new Koa()
+const app: Koa = new Koa()
 
 // 全局错误状态管理
 app.use(handleError());
@@ -30,17 +30,19 @@ app.use(formatResBody())
 
 
 // 请求body格式化插件
-app.use(BodyParser()) 
+app.use(BodyParser())
 
 // 路由插件
 const router = new Router()
-transferToRouteParams().then((routes:Route[])=>{
-    routes.forEach(route=>{
-        const method = route.method
-        router[method](route.path,route.handler)
-    })
+transferToRouteParams().then((routes: Route[]) => {
+  routes.forEach(route => {
+    const method = route.method
+    router[method](route.path, route.handler)
+  })
 })
 app.use(router.routes()).use(router.allowedMethods());
 
 // 启动
-app.listen(config.server.port,config.server.host)
+app.listen(config.server.port, config.server.host)
+
+console.log(`server listen on ${config.server.host}:${config.server.port}`)
