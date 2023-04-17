@@ -15,7 +15,7 @@ class Admin extends Model {
     declare updated_at:string
 }
 
-const tableName = 'depts'
+export const tableName = 'admins'
 
 export default (sequelize: Sequelize): typeof Admin => {
     Admin.init(
@@ -24,7 +24,9 @@ export default (sequelize: Sequelize): typeof Admin => {
         },
         {
             tableName: tableName,
-            timestamps:false,
+            timestamps: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
             sequelize, // passing the `sequelize` instance is required
         },
     );

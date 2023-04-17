@@ -1,5 +1,4 @@
 'use strict';
-
 const tableName = 'depts'
 
 /** @type {import('sequelize-cli').Migration} */

@@ -1,4 +1,4 @@
-const {DataTypes} = require('sequelize')
+const { DataTypes } = require('sequelize')
 
 const tableName = 'depts'
 
@@ -30,7 +30,7 @@ exports.baseFileds = baseFileds
 module.exports = {
     baseFileds,
     async up(queryInterface) {
-        await queryInterface.createTable(tableName,baseFileds );
+        await queryInterface.createTable(tableName, baseFileds);
     },
     async down(queryInterface) {
         await queryInterface.dropTable(tableName);

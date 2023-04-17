@@ -9,14 +9,18 @@ class Depts extends Model {
   declare updated_at: number;
 }
 
+export const tableName = 'depts'
+
 export default (sequelize: Sequelize): typeof Depts => {
     Depts.init(
         {
             ...baseFileds
         },
         {
-            tableName: 'depts',
-            timestamps:false,
+            tableName: tableName,
+            timestamps: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
             sequelize, // passing the `sequelize` instance is required
         },
     );
