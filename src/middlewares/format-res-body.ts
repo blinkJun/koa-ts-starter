@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-28 17:38:24
- * @LastEditTime 2021-01-28 18:56:21
+ * @LastEditTime 2023-04-17 14:12:18
  * @Description 格式化返回值
  */
 import {Context, Next,Middleware} from 'koa'
@@ -35,7 +35,7 @@ export default (options?:FormatResBodyOptions):Middleware =>{
                 data:data
             }
         }
-        // invalid params
+        // 无效参数
         ctx.invalidParams = (msg:string,data:any)=>{
             ctx.status = 200
             ctx.body = {
@@ -45,7 +45,7 @@ export default (options?:FormatResBodyOptions):Middleware =>{
             }
         }
 
-        // invalid params
+        // 服务器出错
         ctx.serverError = (msg:string,data:any)=>{
             ctx.status = 200
             ctx.body = {

@@ -2,12 +2,13 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:25:46
- * @LastEditTime 2023-04-14 10:49:36
+ * @LastEditTime 2023-04-17 14:21:53
  * @Description 
  */
 import Koa from 'koa'
 import Router from '@koa/router'
 import BodyParser from 'koa-bodyparser'
+import favicon from 'koa-favicon';
 
 import handleError from './middlewares/error'
 import setCors from './middlewares/cors'
@@ -18,6 +19,9 @@ import { transferToRouteParams, Route } from './routes'
 import config from './config/index'
 
 const app: Koa = new Koa()
+
+// 站点图标
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // 全局错误状态管理
 app.use(handleError());
