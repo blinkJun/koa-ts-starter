@@ -4,8 +4,8 @@
   "description": "a server tpl by typescript,koa2",
   "main": "index.js",
   "scripts": {
-    "commit": "git-cz",
-    "dev": "cross-env NODE_ENV=dev nodemon ./src/index.ts",
+    "commit": "git add . && npx git-cz",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
     "build": "tsc",
     "prod": "cross-env NODE_ENV=production pm2 start ./dist/index.js --name base-server",
     "lint": "eslint ./src/**/*.ts --fix",

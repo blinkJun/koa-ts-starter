@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-01-25 21:40:16
- * @LastEditTime 2023-04-14 10:43:15
+ * @LastEditTime 2023-04-17 11:32:19
  * @Description 参数验证修饰器
  */
 import 'reflect-metadata';
@@ -44,7 +44,7 @@ export const validate = async function (descriptor: Descriptor, data: ValidateDa
 // 该如何进行验证
 export const validateMiddleware: ValidateMiddleware = async function (ctx: Context, descriptor?: Descriptor) {
     if (descriptor) {
-    // 需要验证的参数
+        // 需要验证的参数
         let data = {}
 
         if (ctx.method === 'GET') {

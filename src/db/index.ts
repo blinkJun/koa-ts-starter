@@ -2,7 +2,7 @@
  * @Author liangjun
  * @LastEditors liangjun
  * @Date 2021-02-02 14:38:18
- * @LastEditTime 2023-04-14 17:03:13
+ * @LastEditTime 2023-04-17 11:24:08
  * @Description 
  */
 import {Sequelize} from 'sequelize'
@@ -10,11 +10,12 @@ import AdminModelCreate from './models/admin'
 import DeptsModelCreate from './models/depts'
 import config from '../config/index'
 
-
-const username = config.mysql.username
-const password = config.mysql.password
-const host = config.mysql.host
-const database = config.mysql.database
+const {
+    username,
+    password,
+    host,
+    database
+} = config.mysql
 
 const sequelize = new Sequelize(`mysql://${username}:${password}@${host}:3306/${database}`);
 

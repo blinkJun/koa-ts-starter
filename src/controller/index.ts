@@ -1,10 +1,10 @@
 
 import { Context, Next } from 'koa'
 import { Controller } from '../decorators/controller'
-import { GET, POST } from '../decorators/methods'
+import { POST } from '../decorators/methods'
 import { Validator } from '../decorators/validator'
 
-import { AdminModel,DeptsModel } from '../db/index'
+import { AdminModel } from '../db/index'
 
 @Controller('/index')
 export default class Index {
@@ -18,7 +18,8 @@ export default class Index {
             required: true
         }
     })
-    async getDetail(ctx: Context): Promise<void> {
+    async getDetail(ctx: Context,next:Next): Promise<void> {
+        await next()
         interface Query {
             id: string
         }
@@ -27,21 +28,5 @@ export default class Index {
             user: instance,
             env: process.env['NODE_ENV']
         })
-    }
-
-    @GET('/test')
-    async testmodel(ctx: Context): Promise<void> {
-        const instance = await DeptsModel.findAll()
-        ctx.success('查询成功', {
-            user: instance,
-            env: process.env['NODE_ENV']
-        })
-    }
-
-    @GET('/page')
-    async getPage(ctx: Context, next: Next): Promise<void> {
-        await next()
-        ctx.status = 200
-        ctx.body = '<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script><script>axios.post("/index/detail",{id:3,number:"2"})</script>'
     }
 }
